@@ -352,6 +352,16 @@ Template['popupWindows_sendTransactionConfirmation'].events({
         // personal_signTransaction?
         // web.eth.sendRawTransaction
 
+        console.log('∆∆∆ override payload', payload);
+        window.getNonce(payload.params[0].from).then(nonce => {
+            console.log('∆∆∆ nonce', nonce);
+            const request = Object.assign({}, payload.params[0], nonce);
+            const signedRequest = window.sign(request);
+            console.log('∆∆∆ signedRequest!', signedRequest);
+            // sendSignedTransaction(signedRequest);
+        });
+
+
         // unlock and send transaction!
         web3.personal.sendTransaction(data, pw || '', function (e, res) {
             pw = null;
